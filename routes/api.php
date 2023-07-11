@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TeamApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -13,7 +14,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
  */
-
+Route::post('team/create', function(Request $request) {
+    
+})->name('team.create');
 Route::get('/teams', function (Request $request) {
     return response()->json(
         ['data' => [
@@ -51,6 +54,8 @@ Route::get('/teams', function (Request $request) {
     ]]
 );
 });
+
+Route::resource('teams', 'TeamsController');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

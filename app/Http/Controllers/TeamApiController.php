@@ -3,26 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
-class TeamsController extends Controller
+class TeamApiController extends Controller
 {
-
-   
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return response()->json('testers',200);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create(Request $request)
-    {
-        
+        //
     }
 
     /**
@@ -37,14 +26,6 @@ class TeamsController extends Controller
      * Display the specified resource.
      */
     public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
     {
         //
     }
