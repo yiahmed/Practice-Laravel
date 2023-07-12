@@ -13,4 +13,16 @@ class Team extends Model
     protected $fillable = ['name', 'logo', 'color'];
 
     public $timestamps = false;
+
+    public function team_color() {
+        return $this->color;
+    }
+
+    public function team_color_to_black(string $color = null , $name)
+    {
+        $this->update([
+            'color' => $color
+        ]);
+        return $this;
+    }
 }
