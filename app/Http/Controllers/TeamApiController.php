@@ -1,27 +1,19 @@
 <?php
 
-use App\Http\Controllers\TeamApiController;
+namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
+use App\Models\Team;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
- */
-Route::post('team/create', [TeamApiController::class, 'store'])->name('team.create');
-Route::get('/teams', [TeamApiController::class, 'index']);
-
-Route::get('/teams', function (Request $request) {
-    return response()->json(
-        ['data' => [
-        ['name' => 'Atlanta Hawks', 'logo' => 'https://upload.wikimedia.org/wikipedia/en/2/24/Atlanta_Hawks_logo.svg', 'color' => '#E03A3E'],
-        ['logo' => 'https://upload.wikimedia.org/wikipedia/en/8/8f/Boston_Celtics.svg', 'color' => '#007A33', 'name' => 'Boston Celtics',],
+class TeamApiController extends Controller
+{
+    private $teams = [
+        [
+            'name' => 'Atlanta Hawks',
+            'logo' => 'https://upload.wikimedia.org/wikipedia/en/2/24/Atlanta_Hawks_logo.svg',
+            'color' => '#E03A3E',
+        ],
+        ['logo' => 'https://upload.wikimedia.org/wikipedia/en/8/8f/Boston_Celtics.svg', 'color' => '#007A33', 'name' => 'Boston Celtics'],
         ['logo' => 'https://patch.com/img/cdn/users/68453/2012/05/raw/842b4607fd503508899d7e15b062a4d5.jpg', 'color' => '#000000', 'name' => 'Brooklyn Nets'],
         ['logo' => 'https://upload.wikimedia.org/wikipedia/en/c/c4/Charlotte_Hornets_%282014%29.svg', 'color' => '#1D1160', 'name' => 'Charlotte Hornets'],
         ['logo' => 'https://upload.wikimedia.org/wikipedia/en/6/67/Chicago_Bulls_logo.svg', 'color' => '#CE1141', 'name' => 'Chicago Bulls'],
@@ -50,13 +42,68 @@ Route::get('/teams', function (Request $request) {
         ['name' => 'Toronto Raptors', 'logo' => 'https=>//upload.wikimedia.org/wikipedia/en/3/36/Toronto_Raptors_logo.svg', 'color' => '#CE1141'],
         ['name' => 'Utah Jazz', 'logo' => 'https=>//upload.wikimedia.org/wikipedia/en/0/04/Utah_Jazz_logo_%282016%29.svg', 'color' => '#002B5C'],
         ['name' => 'Washington Wizards', 'logo' => 'https=>//upload.wikimedia.org/wiki', 'color' =>
-            "#002B5C"],
-    ]]
-);
-});
+            "#002B5C"]
+    ];
 
-// Route::resource('teams', 'TeamApiController');
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $teams = Team::all();
+        return response()->json(['data' => $teams]);
+    }
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $createdTeams = [];
+
+        foreach ($this->teams as $teamData) {
+            $data = $this->validateTeamData($teamData);
+
+            $team = Team::create($data);
+            $createdTeams[] = $team;
+        }
+
+        return response()->json(['message' => 'Teams created successfully', 'data' => $createdTeams]);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        //
+    }
+
+    /**
+     * Validate the team data.
+     */
+    private function validateTeamData(array $teamData)
+    {
+        return validator($teamData, [
+            'name' => 'required|string',
+            'logo' => 'required|string',
+            'color' => 'required|string',
+        ])->validate();
+    }
+}

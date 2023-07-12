@@ -10,11 +10,7 @@ class Team extends Model
     use HasFactory;
 
     protected $table = 'teams';
-    public $primaryKey = 'id';
-    protected $attributes = [
-        'name' => '[]',
-        'logo' => '[]',
-        'color' => '[]'
-    ];
-    public $timestamps = true;
+    protected $fillable = ['name', 'logo', 'color'];
+
+    public $timestamps = false;
 }
