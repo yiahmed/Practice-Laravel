@@ -9,6 +9,11 @@ class Player extends Model
 {
     use HasFactory;
 
+    public function team()
+    {
+        return $this->belongsTo(Team::class);
+    }
+
     protected $table = 'players';
     protected $fillable = ['first_name', 'last_name', 'position', 'height_feet', 'height_inches', 'weight_pounds', 'team_id'];
     public $timestamps = false;
