@@ -19,7 +19,7 @@ Route::post('team/create', [TeamApiController::class, 'store'])->name('team.crea
 Route::get('/teams', [TeamApiController::class, 'index']);
 
 Route::post('player/create', [PlayerApiController::class, 'store'])->name('player.create');
-Route::get('/players', [PlayerApiControllerApiController::class, 'index']);
+Route::get('/players', [PlayerApiController::class, 'index']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
