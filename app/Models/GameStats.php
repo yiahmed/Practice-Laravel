@@ -31,6 +31,8 @@ class GameStats extends Model
         "reb",
         "stl",
         "turnover",
+        "player_id",
+        "team_id",
     ];
     public $timestamps = false;
 
